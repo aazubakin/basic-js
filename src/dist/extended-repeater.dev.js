@@ -1,4 +1,6 @@
-const CustomError = require("../extensions/custom-error");
+"use strict";
+
+var CustomError = require("../extensions/custom-error");
 
 module.exports = function repeater(str, options) {
   str = String(str);
@@ -11,20 +13,22 @@ module.exports = function repeater(str, options) {
   myObj.str = str;
   myObj.additionStr = '';
 
-  for (let j = 0; j < myObj.additionRepeatTimes; j++) {
+  for (var j = 0; j < myObj.additionRepeatTimes; j++) {
     myObj.additionStr += myObj.addition;
   }
+
   myObj.str += myObj.additionStr;
   str = myObj.str;
 
   if (myObj.repeatTimes !== 1) {
-    for (let i = 0; i < myObj.repeatTimes - 1; i++) {
+    for (var i = 0; i < myObj.repeatTimes - 1; i++) {
       myObj.str = myObj.str + myObj.separator + str;
-
     }
   }
+
   return myObj.str;
 };
+
 console.log(module.exports('la', {
   repeatTimes: 3
 }));
