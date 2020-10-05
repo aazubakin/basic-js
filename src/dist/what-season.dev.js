@@ -13,8 +13,3 @@ module.exports = function getSeason()
   if (month > 1 && month < 5) return 'spring';
   if (month > 4 && month < 8) return 'summer';else return 'autumn';
 };
-
-console.log(module.exports(new Date(1994, 1, 2, 3, 4, 5)));
-console.log(module.exports(new Date(2018, 4, 17, 11, 27, 4, 321)));
-console.log(module.exports(new Date(2017, 6, 11, 23, 45, 11, 500)));
-console.log(module.exports(new Date(1994, 8, 26, 3, 0, 11, 500)));
