@@ -11,8 +11,10 @@ var CustomError = require("../extensions/custom-error");
 var VigenereCipheringMachine =
 /*#__PURE__*/
 function () {
-  function VigenereCipheringMachine() {
+  function VigenereCipheringMachine(param) {
     _classCallCheck(this, VigenereCipheringMachine);
+
+    this.param = param;
   }
 
   _createClass(VigenereCipheringMachine, [{
@@ -38,12 +40,48 @@ function () {
       } //-----------------------
 
 
-      return keyToMessage;
+      var encrypt = '';
+
+      for (var _i = 0; _i < messageLength; _i++) {
+        if (message[_i].charCodeAt() > 64 && message[_i].charCodeAt() < 91) {
+          encrypt += String.fromCharCode((message[_i].charCodeAt() - 65 + (keyToMessage[_i].charCodeAt() - 65)) % 26 + 65);
+        } else encrypt += message[_i];
+      }
+
+      if (this.param === undefined || this.param === true) return encrypt;else return encrypt.split("").reverse().join("");
     }
   }, {
     key: "decrypt",
     value: function decrypt(message, key) {
-      throw new CustomError('Not implemented'); // remove line with error and write your code here
+      //message = message.toUpperCase();
+      key = key.toUpperCase();
+      var messageLength = message.length;
+      var keyLength = key.length; //make key in right order
+
+      var keyToMessage = '';
+      var j = 0; //count for key 
+
+      for (var i = 0; i < messageLength; i++) {
+        if (j === keyLength) j = 0;
+
+        if (message[i].charCodeAt() < 65 || message[i].charCodeAt() > 90) {
+          keyToMessage += message[i];
+          j--;
+        } else keyToMessage += key[j];
+
+        j++;
+      } //-----------------------
+
+
+      var decrypt = '';
+
+      for (var _i2 = 0; _i2 < messageLength; _i2++) {
+        if (message[_i2].charCodeAt() > 64 && message[_i2].charCodeAt() < 91) {
+          decrypt += String.fromCharCode((message[_i2].charCodeAt() - 65 + 26 - (keyToMessage[_i2].charCodeAt() - 65)) % 26 + 65);
+        } else decrypt += message[_i2];
+      }
+
+      if (this.param === undefined || this.param === true) return decrypt;else return decrypt.split("").reverse().join("");
     }
   }]);
 
@@ -51,5 +89,14 @@ function () {
 }();
 
 module.exports = VigenereCipheringMachine;
-var directMachine = new VigenereCipheringMachine();
+/*
+const directMachine = new VigenereCipheringMachine();
+
 console.log(directMachine.encrypt('attack at dawn!', 'alphonse'));
+console.log(directMachine.decrypt('AEIHQX SX DLLU!', 'alphonse'));
+
+const reverseMachine = new VigenereCipheringMachine(false);
+
+console.log(reverseMachine.encrypt('attack at dawn!', 'alphonse')); // => '!ULLD XS XQHIEA'
+console.log(reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse')); // 
+*/
